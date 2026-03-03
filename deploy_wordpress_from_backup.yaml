@@ -1,5 +1,5 @@
 - name: Deploy WordPress from Backup
-  hosts: XEN_KMSHVSM  # Change for another site
+  hosts: web_sites
   become: yes
 
   tasks:
@@ -156,7 +156,7 @@
     # Ensure WordPress install directory exists
     - name: Ensure WordPress install directory exists
       file:
-        path: "/var/www/html/electrician_web-site"
+        path: "{{ wordpress_install_dir }}"
         state: directory
         owner: www-data
         group: www-data
@@ -166,14 +166,14 @@
     - name: Unarchive WordPress files backup
       unarchive:
         src: "/tmp/{{ wordpress_files_backup }}"
-        dest: "/var/www/html/electrician_web-site"
+        dest: "{{ wordpress_install_dir }}"
         remote_src: yes
         extra_opts: [ "--strip-components=1" ]
 
     # Set ownership of WordPress files
     - name: Set ownership of WordPress files
       file:
-        path: "/var/www/html/electrician_web-site"
+        path: "{{ wordpress_install_dir }}"
         owner: www-data
         group: www-data
         recurse: yes
@@ -181,7 +181,7 @@
     # Check if unarchive was successful
     - name: Check if WordPress files were extracted
       stat:
-        path: "/var/www/html/electrician_web-site/index.php"
+        path: "{{ wordpress_install_dir }}/index.php"
       register: files_extraction_check
 
     - name: Fail if WordPress files were not extracted

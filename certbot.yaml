@@ -1,6 +1,6 @@
 ---
 - name: Setup Certbot for SSL
-  hosts: web_sites #Change it for enother site 
+  hosts: web_sites
   become: yes
 
   tasks:

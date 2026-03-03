@@ -1,0 +1,9 @@
+# Secrets
+vars_secret.yaml
+vars_secret_*.yaml
+
+# Ansible
+*.retry
+
+# OS
+.DS_Store

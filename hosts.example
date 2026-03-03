@@ -1,0 +1,3 @@
+# Copy this file to "hosts" and edit with your server details.
+[wordpress]
+your_server_ip ansible_user=ubuntu

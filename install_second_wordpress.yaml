@@ -1,6 +1,6 @@
 ---
 - name: Install Second WordPress Site with Nginx, MariaDB, and PHP
-  hosts: web_sites # Change for another site
+  hosts: web_sites
   become: yes
 
   tasks:

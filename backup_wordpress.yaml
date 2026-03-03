@@ -1,6 +1,6 @@
 ---
 - name: Backup Site
-  hosts: web_sites #Change it for enother site #web_sites AWS_KMSHVSM
+  hosts: web_sites
   become: yes
 
   vars:
@@ -106,8 +106,6 @@
       command: swapon --show
       become: yes
 
-# Use RCYNC to copy files
-
     - name: Install rsync on remote host (Debian-based)
       apt:
         name: rsync
@@ -121,7 +119,7 @@
       
     - name: Copy files backup to Ansible host using rsync
       command: >
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no -i {{ ansible_ssh_private_key_file }}" {{ ansible_user }}@{{ inventory_hostname }}:{{ backup_dir }}/{{ files_backup_name }} /home/sergey/backup/{{ domain }}/
+        rsync -avz -e "ssh -o StrictHostKeyChecking=no -i {{ ansible_ssh_private_key_file }}" {{ ansible_user }}@{{ inventory_hostname }}:{{ backup_dir }}/{{ files_backup_name }} ~/backup/{{ domain }}/
       delegate_to: localhost
       register: rsync_result
 
@@ -134,11 +132,6 @@
         src: "{{ backup_dir }}/{{ db_backup_name }}.sql"
         dest: "~/backup/{{ domain }}/"
         flat: yes
-
-#    - name: Remove temporary backup directory on remote host
-#      file:
-#       path: "{{ backup_dir }}"
-#        state: absent
 
     - name: Inform about successful backup
       debug:
